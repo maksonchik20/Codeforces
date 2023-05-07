@@ -1,0 +1,7 @@
+n = int(input())
+v = list(map(int, input().split()))
+l = list(map(int, input().split()))
+m = int(input())
+gr_diap = list(map(int, input().split()))
+f_shtraf = list(map(int, input().split()))
+q = int(input())
