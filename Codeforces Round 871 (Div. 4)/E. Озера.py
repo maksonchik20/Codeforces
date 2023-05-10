@@ -5,9 +5,9 @@ def not_null_get_sosedi(i, j, a):
         arr.append((i+1, j))
     if i-1 >= 0 and a[i-1][j] != 0:
         arr.append((i-1, j))
-    if j + 1 < m and a[i][j+1] != 0:
+    if j+1 < m and a[i][j+1] != 0:
         arr.append((i, j+1))
-    if j - 1 >= 0 and a[i][j-1] != 0:
+    if j-1 >= 0 and a[i][j-1] != 0:
         arr.append((i, j-1))
     return arr
 
@@ -28,6 +28,6 @@ for _ in range(int(input())):
     _max = 0
     for i in range(n):
         for j in range(m):
-            if (i, j) not in visited:
+            if (i, j) not in visited and data[i][j] != 0:
                 _max = max(_max, dfs(i, j, data))
     print(_max)
