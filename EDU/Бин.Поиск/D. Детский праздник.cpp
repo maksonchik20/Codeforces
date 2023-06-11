@@ -1,47 +1,60 @@
 #include <iostream>
 #include <vector>
-
+#include <tuple>
 using namespace std;
-bool good(long long n, long long t, vector<vector<long long>> & users){
+
+
+bool f(vector<tuple<int, int, int>>& users, int& m, long long t) {
     long long cnt = 0;
-    if (t == 0) {
-        return 0;
+    for (auto el : users) {
+        if (get<0>(el) > t){
+            continue;
+        }
+        int cnt_with_rest = (t / (get<0>(el) * get<1>(el) + get<2>(el))) * get<1>(el);
+        int a = (t % (get<0>(el) * get<1>(el) + get<2>(el)) / get<0>(el));
+        int b = get<1>(el);
+        int cnt_by_time = min(a, b);
+        cnt += cnt_with_rest + cnt_by_time;
     }
-    for (const auto el : users) {
-        long long x = (t/el[0]) / el[1] * el[2];
-        cnt += (t - x + el[2]) /el[0];
+    if (cnt >= m) {
+        return true;
     }
-    // cout << cnt;
-    return cnt >= n;
+    return false;
 }
-int main()
-{
-    long long m, n;
+
+
+int main() {
+    int m, n;
     cin >> m >> n;
-    vector<vector<long long>> users(n);
-    for (int i = 0; i < n; ++i) {
-        long long t, z, y;
+    vector<tuple<int, int, int>> users(n);
+    for (int i=0; i < n; ++i) {
+        int t, z, y;
         cin >> t >> z >> y;
-        users[i].push_back(t);
-        users[i].push_back(z);
-        users[i].push_back(y);
+        tuple <int, int, int> for_users(t, z, y);
+        users[i] = for_users;
     }
-    long long l, r;
-    l = -1;
-    r = 1;
-    while (not good(m, r, users)) {
-        r *= 2;
-    }
-    ++r;
-    while (r != l + 1){
-        long long sr = (l + r) / 2;
-        // cout << sr;
-        if (good(m, sr, users)) {
-            r = m;
+    // cout << f(users, m, 10);
+    long long left = 0;
+    long long right = 1e9;
+    while (left + 1 != right) {
+        long long t = (left + right) / 2;
+        if (f(users, m, t)) {
+            right = t;
         } else {
-            l = m;
+            left = t;
         }
     }
-    cout << l;
+    cout << right << endl;
+    int t = right;
+    for (auto el : users) {
+        int cnt_with_rest = (t / (get<0>(el) * get<1>(el) + get<2>(el))) * get<1>(el);
+        int a = (t % (get<0>(el) * get<1>(el) + get<2>(el)) / get<0>(el));
+        int b = get<1>(el);
+        int cnt_by_time = min(a, b);
+        int cnt = cnt_with_rest + cnt_by_time;
+        cnt = min(cnt, m);
+        cout << max(cnt, 0) << " ";
+        m -= cnt;
+    }   
     return 0;
 }
