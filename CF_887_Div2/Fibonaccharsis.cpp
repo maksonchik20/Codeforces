@@ -5,7 +5,7 @@ using namespace std;
 long long req(long long n, long long k) {
     vector<long long> fib(k, 0);
     long long result = 0;
-    for (long long i = 0; i <= n; ++i) {
+    for (long long i = n - ((n + 1) / 2); i <= n; ++i) {
         fib[k - 1] = n;
         fib[k - 2] = i;
         fib[k - 3] = n - i;
