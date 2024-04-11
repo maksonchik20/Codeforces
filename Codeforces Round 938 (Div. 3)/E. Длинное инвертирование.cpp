@@ -24,7 +24,6 @@ void solve() {
         bool ok = true;
         for (int j = 0; j < n; ++j) {
             cnt -= dels[j];
-            // cout << j << " " << s[j] << " " << cnt << endl;
             if (j + i <= n) { // могу начать инверсию
                 if (cnt % 2 == 0) {
                     if (s[j] == '0') {
